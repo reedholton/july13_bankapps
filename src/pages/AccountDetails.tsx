@@ -1,22 +1,54 @@
-import { useParams, Link, Navigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
 import PassbookFrame from '../components/PassbookFrame'
-import { useBankData } from '../context/BankDataContext'
+import { getAccount, ApiError } from '../api/bankApi'
 import { formatMoney } from '../utils/format'
+import type { Account } from '../types/bank'
 
 export default function AccountDetails() {
   const { accountId } = useParams<{ accountId: string }>()
-  const { getAccount } = useBankData()
-  const account = accountId ? getAccount(accountId) : undefined
+  const [account, setAccount] = useState<Account | null>(null)
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [error, setError] = useState('')
 
-  if (!account) {
-    return <Navigate to="/" replace />
+  useEffect(() => {
+    if (!accountId) return
+    setStatus('loading')
+    getAccount(accountId)
+      .then((result) => {
+        setAccount(result)
+        setStatus('ready')
+      })
+      .catch((err) => {
+        setError(err instanceof ApiError ? err.message : 'Something went wrong')
+        setStatus('error')
+      })
+  }, [accountId])
+
+  if (status === 'loading') {
+    return (
+      <PassbookFrame trail={[{ label: 'Home', to: '/' }]} title="Account">
+        <p className="status-message">Loading account…</p>
+      </PassbookFrame>
+    )
+  }
+
+  if (status === 'error' || !account) {
+    return (
+      <PassbookFrame trail={[{ label: 'Home', to: '/' }]} title="Account">
+        <div className="form-banner form-banner-error">{error}</div>
+        <Link to="/" className="btn btn-secondary">
+          Back to home
+        </Link>
+      </PassbookFrame>
+    )
   }
 
   return (
     <PassbookFrame
       trail={[{ label: 'Home', to: '/' }, { label: `Account #${account.accountId}` }]}
       title={account.userName}
-      subtitle={`${account.accountType === 'SAVINGS' ? 'Savings' : 'Current'} account`}
+      subtitle={`${account.accountType === 'SAVINGS' ? 'Savings' : 'Checking'} account`}
     >
       <div className="balance-block">
         <div className="balance-label">Current balance</div>
@@ -31,10 +63,6 @@ export default function AccountDetails() {
         <div className="summary-row">
           <dt>User name</dt>
           <dd style={{ fontFamily: 'var(--font-body)' }}>{account.userName}</dd>
-        </div>
-        <div className="summary-row">
-          <dt>Email</dt>
-          <dd style={{ fontFamily: 'var(--font-body)' }}>{account.email}</dd>
         </div>
       </dl>
 

@@ -373,6 +373,13 @@ button {
   font-size: 0.9rem;
 }
 
+.status-message {
+  padding: 1.5rem 0;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
 /* ---------------------------------------------------------------- */
 /* Stamp badge - the signature element                                */
 /* ---------------------------------------------------------------- */

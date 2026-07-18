@@ -10,10 +10,11 @@ import type {
 
 /**
  * Base URL for the Spring Boot backend. Falls back to the local default so this works
- * out of the box with zero setup - set VITE_API_BASE_URL in a .env file if you ever
- * need to point at a different host (e.g. once this is deployed somewhere).
+ * out of the box with zero setup - set VITE_API_BASE_URL (e.g. in Render's dashboard,
+ * or a local .env file) if you ever need to point at a different host. Trailing slash
+ * stripped in case it gets pasted in with one - avoids double slashes in request paths.
  */
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080').replace(/\/$/, '')
 
 /** Thrown for both network failures (backend not running) and API error responses. */
 export class ApiError extends Error {}

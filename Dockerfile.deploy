@@ -1,0 +1,9 @@
+# Used by deploy.sh - expects an already-built app.jar sitting next to this
+# Dockerfile (deploy.sh builds it locally via Maven and copies both up to the
+# EC2 instance). No Maven step happens here - keeps this fast and light
+# enough to build directly on a t3.micro.
+FROM eclipse-temurin:21-jre-jammy
+WORKDIR /app
+COPY app.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]

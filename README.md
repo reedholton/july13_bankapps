@@ -65,21 +65,53 @@ admin route) returns:
 { "timestamp": "2026-07-16T10:15:30", "message": "Access Forbidden" }
 ```
 
----
+## Environment variables
 
-## Testing with Postman
+| Variable | Default | Purpose |
+|---|---|---|
+| `PORT` | `8080` | What port the app listens on. Render (and most hosts) set this automatically - don't set it yourself on Render. |
+| `MONGODB_URI` | `mongodb://localhost:27017/simplebankdb` | Your MongoDB connection string (Atlas or local). |
+| `JWT_SECRET` | a placeholder value | Signing key for JWTs. Set a real, private value for any real deployment. |
+| `JWT_EXPIRATION_MS` | `86400000` (24h) | How long a token stays valid. |
+| `ADMIN_NAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` | see above | The seeded admin account's details. |
+| `CORS_ALLOWED_ORIGINS` | `*` | Comma-separated list of frontend URLs allowed to call this API. Defaults wide open for local development. |
 
-`postman/SimpleBankAPI.postman_collection.json` has 19 requests, grouped into four
-folders, run top to bottom:
+## Deploying to Render
 
-1. **Setup** - registers two users (Alice, Bob) and logs in as the seeded admin,
-   capturing all three tokens into collection variables automatically.
-2. **Alice's normal usage** - the full happy path: open an account, deposit, withdraw,
-   view transactions.
-3. **Ownership + RBAC checks** - the actual security tests: no token → 403; Bob trying
-   to view Alice's account → 403; admin viewing Alice's account → 200 (bypass works);
-   Bob hitting an admin route → 403; admin hitting the same route → 200.
-4. **Validation + error cases** - duplicate email → 409, short password → 400, wrong
-   login password → 401, business rule violations → 400.
+Render doesn't offer Java as a native runtime, so this deploys as a **Docker** web
+service using the `Dockerfile` already in this repo - no changes needed there.
 
-Run the whole collection with the **Runner** to see a pass/fail summary across all 19.
+1. Go to [dashboard.render.com](https://dashboard.render.com) → **New** → **Web Service**.
+2. Connect your GitHub account if you haven't, then select this repo.
+3. Pick the **`restapi_jwt`** branch.
+4. Render should auto-detect the `Dockerfile` and set **Language/Environment** to
+   **Docker**. If it doesn't, set it manually. Leave the Build and Start Commands empty -
+   the Dockerfile handles both.
+5. Under **Environment**, add the variables from the table above:
+   - `MONGODB_URI` - your real Atlas connection string.
+   - `JWT_SECRET` - generate a real random value (don't reuse the placeholder).
+   - `ADMIN_EMAIL` / `ADMIN_PASSWORD` - change these from the defaults.
+   - Leave `CORS_ALLOWED_ORIGINS` unset for now (defaults to `*`) - you'll come back
+     and set it once the frontend is deployed and you have its real URL (see below).
+   - **Don't set `PORT`** - Render provides this automatically, and `application.properties`
+     already reads it.
+6. Click **Create Web Service**. Render builds the Docker image and deploys it - watch
+   the **Logs** tab for `Started SimpleBankApplication...` to confirm a clean startup.
+7. Note the URL Render gives you (something like `https://simple-bank-backend.onrender.com`)
+   - the frontend needs this next.
+
+### MongoDB Atlas: allow Render to connect
+
+Render's outbound IPs aren't static by default, so in Atlas: **Network Access** → **Add
+IP Address** → **Allow Access from Anywhere** (`0.0.0.0/0`). Without this, the backend
+will start but every database call will time out.
+
+### After the frontend is deployed too
+
+Come back to this service's **Environment** tab and set:
+```
+CORS_ALLOWED_ORIGINS=https://your-frontend-name.onrender.com
+```
+(no trailing slash; comma-separate multiple origins if you ever need more than one).
+This closes the wide-open `*` default down to just your real frontend. Save and let it
+redeploy.

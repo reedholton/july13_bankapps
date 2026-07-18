@@ -1,8 +1,10 @@
 package com.simplebank.bankapp.security;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -86,10 +88,22 @@ public class SecurityConfiguration {
         response.getWriter().write(objectMapper.writeValueAsString(new ErrorResponse("Access Forbidden")));
     }
 
+    /**
+     * Defaults to "*" (any origin) via application.properties (app.cors.allowed-origins),
+     * so local development keeps working with zero setup. Set CORS_ALLOWED_ORIGINS to a
+     * comma-separated list of your real frontend URL(s) once deployed - e.g.
+     * "https://your-frontend.onrender.com" - rather than leaving this wide open.
+     */
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource(
+            @Value("${app.cors.allowed-origins}") String allowedOrigins) {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedOriginPatterns(
+                Arrays.stream(allowedOrigins.split(","))
+                        .map(String::trim)
+                        .filter(origin -> !origin.isEmpty())
+                        .toList()
+        );
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
 

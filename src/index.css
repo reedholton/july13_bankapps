@@ -102,6 +102,8 @@ button {
 .site-nav-actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 1.1rem;
   font-size: 0.78rem;
   color: var(--ink-soft);
@@ -746,13 +748,17 @@ button {
 /* ---------------------------------------------------------------- */
 
 .marketing-header {
-  border-bottom: 1px dashed var(--rule);
-  padding: 3.5rem 2rem 3rem;
+  padding: 3rem 2rem;
   text-align: center;
 }
 .marketing-header-inner {
   max-width: 40rem;
   margin: 0 auto;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 var(--rule);
+  padding: 2.25rem 2.5rem;
 }
 .marketing-eyebrow {
   font-size: 0.75rem;
@@ -775,11 +781,16 @@ button {
 }
 
 .marketing-body {
-  padding: 3.5rem 2rem;
+  padding: 0 2rem 4rem;
 }
 .marketing-body-inner {
   max-width: 44rem;
   margin: 0 auto;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 var(--rule);
+  padding: 2.25rem 2.5rem;
 }
 .marketing-body-wide .marketing-body-inner {
   max-width: 64rem;

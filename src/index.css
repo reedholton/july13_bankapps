@@ -168,6 +168,11 @@ button {
 .app-main-inner {
   max-width: 42rem;
   margin: 0 auto;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 var(--rule);
+  padding: 2rem 2.25rem;
 }
 .app-main-wide .app-main-inner {
   max-width: 68rem;
@@ -709,6 +714,92 @@ button {
   font-size: 0.8rem;
   color: var(--ink-soft);
 }
+.landing-footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 0.9rem;
+}
+.landing-footer-links a {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.landing-footer-links a:hover {
+  color: var(--brass-dark);
+}
+
+/* ---- top nav marketing links (unauthenticated only) ---- */
+
+.site-nav-link {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.site-nav-link:hover {
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------------- */
+/* Marketing pages (About / Services / Contact) - full-width like the      */
+/* landing page, not boxed like the app/login pages.                        */
+/* ---------------------------------------------------------------- */
+
+.marketing-header {
+  border-bottom: 1px dashed var(--rule);
+  padding: 3.5rem 2rem 3rem;
+  text-align: center;
+}
+.marketing-header-inner {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+.marketing-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+  margin-bottom: 0.75rem;
+}
+.marketing-title {
+  font-family: var(--font-display);
+  font-size: 2.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+}
+.marketing-subtitle {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.marketing-body {
+  padding: 3.5rem 2rem;
+}
+.marketing-body-inner {
+  max-width: 44rem;
+  margin: 0 auto;
+}
+.marketing-body-wide .marketing-body-inner {
+  max-width: 64rem;
+}
+.marketing-body-inner h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 2.5rem 0 0.75rem;
+}
+.marketing-body-inner h2:first-child {
+  margin-top: 0;
+}
+.marketing-body-inner p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 1rem;
+}
 
 @media (max-width: 800px) {
   .landing-hero {
@@ -719,6 +810,9 @@ button {
   }
   .landing-features-inner {
     grid-template-columns: 1fr;
+  }
+  .marketing-title {
+    font-size: 1.7rem;
   }
 }
 

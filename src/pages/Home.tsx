@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import TopNav from '../components/TopNav'
+import SiteFooter from '../components/SiteFooter'
 
 /**
  * The public landing page - no login required, full-width layout. Anyone
@@ -68,10 +69,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="landing-footer">
-        <span className="landing-footer-mark">Simple Bank</span>
-        <span className="landing-footer-note">A simple, secure passbook for your everyday banking.</span>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }

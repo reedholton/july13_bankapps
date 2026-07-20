@@ -33,9 +33,20 @@ export default function TopNav() {
               </button>
             </>
           ) : (
-            <Link to="/login" className="site-nav-cta">
-              Log in
-            </Link>
+            <>
+              <Link to="/about" className="site-nav-link">
+                About
+              </Link>
+              <Link to="/services" className="site-nav-link">
+                Services
+              </Link>
+              <Link to="/contact" className="site-nav-link">
+                Contact
+              </Link>
+              <Link to="/login" className="site-nav-cta">
+                Log in
+              </Link>
+            </>
           )}
         </div>
       </div>

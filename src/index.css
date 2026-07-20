@@ -71,56 +71,56 @@ button {
 }
 
 /* ---------------------------------------------------------------- */
-/* Layout shell                                                      */
+/* Layout shell - full-width, shared by every page (landing + app)         */
 /* ---------------------------------------------------------------- */
 
-.page-shell {
+.app-shell {
   min-height: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 3rem 1.25rem 4rem;
 }
 
-.passbook {
-  width: 100%;
-  max-width: 30rem;
+.site-nav {
   background: var(--paper-2);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  box-shadow: 0 1px 0 var(--rule);
-  overflow: hidden;
-  height: fit-content;
-}
-
-.passbook__letterhead {
-  padding: 1.75rem 1.75rem 1.25rem;
   border-bottom: 3px double var(--brass);
-  text-align: center;
 }
-
-.passbook__authbar {
+.site-nav-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.1rem 2rem;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  font-size: 0.75rem;
-  color: var(--ink-soft);
-  margin-bottom: 1rem;
-  text-align: right;
+  justify-content: space-between;
 }
-
-.passbook__authbar a {
-  color: var(--brass-dark);
+.site-nav-mark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
   text-decoration: none;
 }
-.passbook__authbar a:hover {
-  text-decoration: underline;
+.site-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
 }
-
-.passbook__authbar-name {
+.site-nav-status {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+}
+.site-nav-cta {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--brass);
+  padding-bottom: 0.15rem;
+}
+.site-nav-cta:hover {
+  color: var(--brass-dark);
 }
 
 .admin-tag {
@@ -139,7 +139,7 @@ button {
   background: none;
   border: none;
   padding: 0;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-family: var(--font-body);
   color: var(--brass-dark);
   cursor: pointer;
@@ -149,45 +149,53 @@ button {
   text-decoration: underline;
 }
 
-.passbook__mark {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.5rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink);
+.app-trail {
+  background: var(--paper);
+  border-bottom: 1px dashed var(--rule);
 }
-
-.passbook__tagline {
-  margin-top: 0.35rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--brass-dark);
-}
-
-.passbook__trail {
-  margin-top: 0.9rem;
+.app-trail-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0.65rem 2rem;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--ink-soft);
-  letter-spacing: 0.02em;
 }
 
-.passbook__body {
-  padding: 1.75rem;
+.app-main {
+  padding: 3rem 2rem 4rem;
+}
+.app-main-inner {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+.app-main-wide .app-main-inner {
+  max-width: 68rem;
 }
 
-.passbook__title {
-  font-size: 1.35rem;
+.app-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
   font-weight: 500;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 
-.passbook__subtitle {
+.app-subtitle {
   color: var(--ink-soft);
-  font-size: 0.9rem;
-  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 640px) {
+  .site-nav-inner,
+  .app-trail-inner,
+  .app-main {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  .app-main {
+    padding-top: 2rem;
+  }
 }
 
 /* ---------------------------------------------------------------- */
@@ -526,55 +534,192 @@ button {
 }
 
 @media (max-width: 420px) {
-  .passbook__body {
-    padding: 1.35rem;
-  }
   .balance-figure {
     font-size: 1.9rem;
   }
 }
 
 /* ---------------------------------------------------------------- */
-/* Landing page                                                       */
+/* Landing page - full-width, distinct from the narrow passbook card       */
+/* used everywhere else in the app.                                         */
 /* ---------------------------------------------------------------- */
 
-.landing-stats {
+.landing {
+  width: 100%;
+}
+
+/* ---- hero ---- */
+
+.landing-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+/* Subtle ruled-ledger texture at hero scale, plus a soft brass glow behind the
+   headline - the "nice background" the page was missing, without a real image
+   asset and staying inside the passbook/ledger visual language already
+   established elsewhere in the app. */
+.landing-hero-pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 700px 420px at 50% 15%, rgba(169, 131, 43, 0.22), transparent 70%),
+    repeating-linear-gradient(rgba(255, 255, 255, 0.035) 0, rgba(255, 255, 255, 0.035) 1px, transparent 1px, transparent 42px);
+}
+
+.landing-hero-inner {
+  position: relative;
+  max-width: 38rem;
+  margin: 0 auto;
+}
+
+.landing-hero-tagline {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 1rem;
+}
+
+.landing-hero-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 1.1rem;
+}
+
+.landing-hero-subtitle {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 2.25rem;
+}
+
+.landing-hero-actions {
   display: flex;
-  justify-content: space-between;
-  margin: 1.75rem 0;
-  padding: 1.1rem 0;
-  border-top: 1px dashed var(--rule);
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.landing-hero-actions .btn {
+  width: auto;
+  padding-inline: 1.75rem;
+}
+.landing-hero-secondary {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--white);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  padding-bottom: 0.2rem;
+}
+.landing-hero-secondary:hover {
+  border-bottom-color: var(--white);
+}
+
+/* ---- stats band ---- */
+
+.landing-stats-band {
+  background: var(--paper-2);
   border-bottom: 1px dashed var(--rule);
+}
+.landing-stats-inner {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-around;
 }
 .landing-stat {
   text-align: center;
-  flex: 1;
 }
 .landing-stat-figure {
   font-family: var(--font-mono);
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   color: var(--ink);
 }
 .landing-stat-label {
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
 }
 
-.landing-features {
+/* ---- features ---- */
+
+.landing-features-section {
+  padding: 4.5rem 2rem;
+}
+.landing-features-inner {
+  max-width: 64rem;
+  margin: 0 auto;
   display: grid;
-  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.landing-feature {
+  padding: 1.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--paper-2);
+}
+.landing-feature-mark {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--brass);
+  margin-bottom: 0.75rem;
 }
 .landing-feature h3 {
-  font-size: 0.95rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
   font-weight: 500;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
 }
 .landing-feature p {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
   color: var(--ink-soft);
+}
+
+/* ---- footer ---- */
+
+.landing-footer {
+  border-top: 3px double var(--brass);
+  padding: 1.75rem 2rem;
+  text-align: center;
+}
+.landing-footer-mark {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+.landing-footer-note {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 800px) {
+  .landing-hero {
+    padding: 4rem 1.5rem;
+  }
+  .landing-hero-title {
+    font-size: 2.1rem;
+  }
+  .landing-features-inner {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

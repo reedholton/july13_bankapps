@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { Link } from 'react-router-dom'
+import TopNav from './TopNav'
 
 export interface Crumb {
   label: string
@@ -11,72 +11,50 @@ interface PassbookFrameProps {
   trail?: Crumb[]
   title?: string
   subtitle?: string
+  /** Wider content column for table-heavy pages (Dashboard, transaction history). */
+  wide?: boolean
   children: ReactNode
 }
 
 /**
- * Every screen sits inside this same "passbook" chrome - a letterhead up top (who's
- * signed in, a logout control) with a breadcrumb trail, and a body area for the page's
- * own content below.
+ * Shared chrome for every screen inside the app. Used to wrap everything in a
+ * narrow bordered "passbook card" sitting in the middle of the page - which is
+ * exactly what read as a dialog box, on every screen, not just the landing
+ * page. Now it's a full-width shell (shared nav, optional breadcrumb bar,
+ * content area) - still ties back to the passbook/ledger visual language via
+ * the brass rule under the nav and the serif title, just without the box.
  */
 export default function PassbookFrame({
   trail = [],
   title,
   subtitle,
+  wide = false,
   children,
 }: PassbookFrameProps) {
-  const { isAuthenticated, isAdmin, name, logout } = useAuth()
-  const navigate = useNavigate()
-
-  function handleLogout() {
-    logout()
-    navigate('/login')
-  }
-
-  // Signed-in visitors clicking the wordmark go to their dashboard; signed-out
-  // visitors go to the public landing page.
-  const brandTarget = isAuthenticated ? '/dashboard' : '/'
-
   return (
-    <div className="page-shell">
-      <div className="passbook">
-        <header className="passbook__letterhead">
-          <div className="passbook__authbar">
-            {isAuthenticated ? (
-              <>
-                <span className="passbook__authbar-name">
-                  Signed in as {name}
-                  {isAdmin && <span className="admin-tag">Admin</span>}
-                </span>
-                <button type="button" className="link-button" onClick={handleLogout}>
-                  Log out
-                </button>
-              </>
-            ) : (
-              <Link to="/login">Log in</Link>
-            )}
+    <div className="app-shell">
+      <TopNav />
+
+      {trail.length > 0 && (
+        <nav className="app-trail" aria-label="Breadcrumb">
+          <div className="app-trail-inner">
+            {trail.map((crumb, i) => (
+              <span key={crumb.label}>
+                {i > 0 && ' / '}
+                {crumb.to ? <Link to={crumb.to}>{crumb.label}</Link> : crumb.label}
+              </span>
+            ))}
           </div>
-          <Link to={brandTarget} style={{ textDecoration: 'none' }}>
-            <div className="passbook__mark">Simple Bank</div>
-          </Link>
-          <div className="passbook__tagline">Member Passbook</div>
-          {trail.length > 0 && (
-            <nav className="passbook__trail" aria-label="Breadcrumb">
-              {trail.map((crumb, i) => (
-                <span key={crumb.label}>
-                  {i > 0 && ' / '}
-                  {crumb.to ? <Link to={crumb.to}>{crumb.label}</Link> : crumb.label}
-                </span>
-              ))}
-            </nav>
-          )}
-        </header>
-        <div className="passbook__body">
-          {title && <h1 className="passbook__title">{title}</h1>}
-          {subtitle && <p className="passbook__subtitle">{subtitle}</p>}
+        </nav>
+      )}
+
+      <main className={`app-main${wide ? ' app-main-wide' : ''}`}>
+        <div className="app-main-inner">
+          {title && <h1 className="app-title">{title}</h1>}
+          {subtitle && <p className="app-subtitle">{subtitle}</p>}
           {children}
         </div>
-      </div>
+      </main>
     </div>
   )
 }

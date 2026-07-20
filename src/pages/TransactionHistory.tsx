@@ -32,7 +32,7 @@ export default function TransactionHistory() {
 
   if (status === 'loading') {
     return (
-      <PassbookFrame trail={[{ label: 'Dashboard', to: '/dashboard' }]} title="Transaction history">
+      <PassbookFrame wide trail={[{ label: 'Dashboard', to: '/dashboard' }]} title="Transaction history">
         <p className="status-message">Loading transactions…</p>
       </PassbookFrame>
     )
@@ -40,7 +40,7 @@ export default function TransactionHistory() {
 
   if (status === 'error' || !account) {
     return (
-      <PassbookFrame trail={[{ label: 'Dashboard', to: '/dashboard' }]} title="Transaction history">
+      <PassbookFrame wide trail={[{ label: 'Dashboard', to: '/dashboard' }]} title="Transaction history">
         <div className="form-banner form-banner-error">{error}</div>
         <Link to="/dashboard" className="btn btn-secondary">
           Back to dashboard
@@ -51,6 +51,7 @@ export default function TransactionHistory() {
 
   return (
     <PassbookFrame
+      wide
       trail={[
         { label: 'Dashboard', to: '/dashboard' },
         { label: `Account #${account.accountId}`, to: `/accounts/${account.accountId}` },

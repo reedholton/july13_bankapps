@@ -43,6 +43,7 @@ export default function Dashboard() {
 
   return (
     <PassbookFrame
+      wide
       title={isAdmin ? 'Admin dashboard' : `Welcome back, ${name}`}
       subtitle={
         isAdmin

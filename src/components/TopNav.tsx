@@ -33,6 +33,9 @@ export default function TopNav() {
           </Link>
           {isAuthenticated ? (
             <>
+              <Link to="/dashboard" className="site-nav-cta">
+                Dashboard
+              </Link>
               <span className="site-nav-status">
                 Signed in as {name}
                 {isAdmin && <span className="admin-tag">Admin</span>}

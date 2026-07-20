@@ -7,6 +7,7 @@ import type {
   Transaction,
   User,
 } from '../types/bank'
+import { startLoading, stopLoading } from '../utils/loadingStore'
 
 /**
  * Base URL for the Spring Boot backend. Falls back to the local default so this works
@@ -29,28 +30,35 @@ interface ErrorBody {
  * requests to anything except /api/auth/**.
  */
 async function request<T>(path: string, token?: string, options?: RequestInit): Promise<T> {
-  const headers: Record<string, string> = {}
-  if (options?.body) headers['Content-Type'] = 'application/json'
-  if (token) headers['Authorization'] = `Bearer ${token}`
-
-  let response: Response
+  startLoading()
   try {
-    response = await fetch(`${API_BASE_URL}${path}`, { headers, ...options })
-  } catch {
-    throw new ApiError(
-      `Could not reach the API at ${API_BASE_URL}. Is the Spring Boot app running?`
-    )
+    const headers: Record<string, string> = {}
+    if (options?.body) headers['Content-Type'] = 'application/json'
+    if (token) headers['Authorization'] = `Bearer ${token}`
+
+    let response: Response
+    try {
+      response = await fetch(`${API_BASE_URL}${path}`, { headers, ...options })
+    } catch {
+      throw new ApiError(
+        `Could not reach the API at ${API_BASE_URL}. Is the Spring Boot app running?`
+      )
+    }
+
+    const text = await response.text()
+    const body = text ? JSON.parse(text) : null
+
+    if (!response.ok) {
+      const message = (body as ErrorBody | null)?.message ?? `Request failed (${response.status})`
+      throw new ApiError(message)
+    }
+
+    return body as T
+  } finally {
+    // Runs on success AND on any thrown error - the overlay must never get
+    // stuck on screen just because a request failed.
+    stopLoading()
   }
-
-  const text = await response.text()
-  const body = text ? JSON.parse(text) : null
-
-  if (!response.ok) {
-    const message = (body as ErrorBody | null)?.message ?? `Request failed (${response.status})`
-    throw new ApiError(message)
-  }
-
-  return body as T
 }
 
 // ---- Auth (public - no token) ------------------------------------------------

@@ -41,6 +41,15 @@ the request with `403 Access Forbidden`. The frontend's route guard (`RequireAut
 about UX (redirecting you to `/login` immediately if you're not signed in), not the
 actual security boundary.
 
+## Default admin login (for testing the admin dashboard)
+
+The backend seeds one automatically on first startup:
+```
+email:    admin@simplebank.local
+password: ChangeMe123!
+```
+See the backend README for how to change these.
+
 ## Running it
 
 You need the backend running too - see its README. Then:

@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import RequireAuth from './components/RequireAuth'
+import LoadingOverlay from './components/LoadingOverlay'
 import Home from './pages/Home'
 import About from './pages/About'
 import Services from './pages/Services'
@@ -17,6 +18,7 @@ import TransactionHistory from './pages/TransactionHistory'
 function App() {
   return (
     <AuthProvider>
+      <LoadingOverlay />
       <Routes>
         {/* Public */}
         <Route path="/" element={<Home />} />

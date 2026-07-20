@@ -401,6 +401,30 @@ button {
 }
 
 /* ---------------------------------------------------------------- */
+/* Account overview - two columns: summary/actions, full ledger        */
+/* ---------------------------------------------------------------- */
+
+.account-overview-grid {
+  display: grid;
+  grid-template-columns: 22rem 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+.account-overview-ledger-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 900px) {
+  .account-overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------- */
 /* Ledger table (transaction history)                                 */
 /* ---------------------------------------------------------------- */
 
@@ -440,10 +464,10 @@ button {
   text-align: right;
   font-weight: 500;
 }
-.ledger .amount-deposit {
+.amount-deposit {
   color: var(--green);
 }
-.ledger .amount-withdraw {
+.amount-withdraw {
   color: var(--brick);
 }
 .ledger td.actions {

@@ -30,7 +30,7 @@ export default function CreateAccount() {
 
   return (
     <PassbookFrame
-      trail={[{ label: 'Dashboard', to: '/dashboard' }, { label: 'Open a new account' }]}
+      trail={[{ label: 'Overview', to: '/dashboard' }, { label: 'Open a new account' }]}
       title="Open a new account"
       subtitle="Choose the type of account to open. It'll be opened under your profile automatically."
     >

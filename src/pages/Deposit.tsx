@@ -66,7 +66,7 @@ export default function Deposit() {
 
   if (status === 'loading') {
     return (
-      <PassbookFrame trail={[{ label: 'Dashboard', to: '/dashboard' }]} title="Deposit money">
+      <PassbookFrame trail={[{ label: 'Overview', to: '/dashboard' }]} title="Deposit money">
         <p className="status-message">Loading account…</p>
       </PassbookFrame>
     )
@@ -74,10 +74,10 @@ export default function Deposit() {
 
   if (status === 'error' || !account) {
     return (
-      <PassbookFrame trail={[{ label: 'Dashboard', to: '/dashboard' }]} title="Deposit money">
+      <PassbookFrame trail={[{ label: 'Overview', to: '/dashboard' }]} title="Deposit money">
         <div className="form-banner form-banner-error">{formError}</div>
         <Link to="/dashboard" className="btn btn-secondary">
-          Back to dashboard
+          Back to overview
         </Link>
       </PassbookFrame>
     )
@@ -86,7 +86,7 @@ export default function Deposit() {
   return (
     <PassbookFrame
       trail={[
-        { label: 'Dashboard', to: '/dashboard' },
+        { label: 'Overview', to: '/dashboard' },
         { label: `Account #${account.accountId}`, to: `/accounts/${account.accountId}` },
         { label: 'Deposit' },
       ]}

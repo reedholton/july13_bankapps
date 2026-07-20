@@ -70,7 +70,7 @@ export default function Withdraw() {
 
   if (status === 'loading') {
     return (
-      <PassbookFrame trail={[{ label: 'Dashboard', to: '/dashboard' }]} title="Withdraw money">
+      <PassbookFrame trail={[{ label: 'Overview', to: '/dashboard' }]} title="Withdraw money">
         <p className="status-message">Loading account…</p>
       </PassbookFrame>
     )
@@ -78,10 +78,10 @@ export default function Withdraw() {
 
   if (status === 'error' || !account) {
     return (
-      <PassbookFrame trail={[{ label: 'Dashboard', to: '/dashboard' }]} title="Withdraw money">
+      <PassbookFrame trail={[{ label: 'Overview', to: '/dashboard' }]} title="Withdraw money">
         <div className="form-banner form-banner-error">{formError}</div>
         <Link to="/dashboard" className="btn btn-secondary">
-          Back to dashboard
+          Back to overview
         </Link>
       </PassbookFrame>
     )
@@ -90,7 +90,7 @@ export default function Withdraw() {
   return (
     <PassbookFrame
       trail={[
-        { label: 'Dashboard', to: '/dashboard' },
+        { label: 'Overview', to: '/dashboard' },
         { label: `Account #${account.accountId}`, to: `/accounts/${account.accountId}` },
         { label: 'Withdraw' },
       ]}

@@ -13,7 +13,6 @@ import CreateAccount from './pages/CreateAccount'
 import AccountDetails from './pages/AccountDetails'
 import Deposit from './pages/Deposit'
 import Withdraw from './pages/Withdraw'
-import TransactionHistory from './pages/TransactionHistory'
 
 function App() {
   return (
@@ -34,7 +33,6 @@ function App() {
         <Route path="/accounts/:accountId" element={<RequireAuth><AccountDetails /></RequireAuth>} />
         <Route path="/accounts/:accountId/deposit" element={<RequireAuth><Deposit /></RequireAuth>} />
         <Route path="/accounts/:accountId/withdraw" element={<RequireAuth><Withdraw /></RequireAuth>} />
-        <Route path="/accounts/:accountId/transactions" element={<RequireAuth><TransactionHistory /></RequireAuth>} />
 
         <Route path="*" element={<Home />} />
       </Routes>

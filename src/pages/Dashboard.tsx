@@ -44,7 +44,7 @@ export default function Dashboard() {
   return (
     <PassbookFrame
       wide
-      title={isAdmin ? 'Admin dashboard' : `Welcome back, ${name}`}
+      title={isAdmin ? 'Admin overview' : `Welcome back, ${name}`}
       subtitle={
         isAdmin
           ? 'Every account and every registered user, across all customers.'

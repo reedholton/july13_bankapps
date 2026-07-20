@@ -34,7 +34,7 @@ export default function TopNav() {
           {isAuthenticated ? (
             <>
               <Link to="/dashboard" className="site-nav-cta">
-                Dashboard
+                Overview
               </Link>
               <span className="site-nav-status">
                 Signed in as {name}

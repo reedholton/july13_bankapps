@@ -424,6 +424,56 @@ button {
   }
 }
 
+/* ---- overview page: stats row + account cards ---- */
+
+.overview-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  padding: 0.75rem 0 1.75rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px dashed var(--rule);
+}
+
+.account-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.account-card {
+  display: block;
+  padding: 1.25rem 1.4rem;
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--brass);
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 120ms ease;
+}
+.account-card:hover {
+  border-color: var(--brass);
+}
+.account-card-type {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 0.6rem;
+}
+.account-card-balance {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+.account-card-id {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
 /* ---------------------------------------------------------------- */
 /* Ledger table (transaction history)                                 */
 /* ---------------------------------------------------------------- */
